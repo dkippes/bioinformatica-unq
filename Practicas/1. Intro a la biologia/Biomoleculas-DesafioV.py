@@ -1,22 +1,9 @@
-# DESAFÍO V: Predicción de estructura secundaria por residuo
-#
-# Input:  una secuencia de aminoácidos en código de una letra (string)
-#         Ej: "ACDEFGHIKLMNPQRSTVWY"
-#
-# Output: una cadena del mismo largo donde cada posición indica la
-#         estructura predicha para ese residuo:
-#           H = alfa-hélice
-#           B = hoja beta plegada
-#           L = bucle (loop)
-#
-# Método: tabla de propensidades de Chou-Fasman.
-#         Cada aminoácido tiene una "preferencia" conocida por cada
-#         estructura. Se elige la de mayor valor para cada residuo.
+# Desafío V: predecir la estructura secundaria de una proteína
+# Para cada aminoácido dice si forma hélice (H), hoja beta (B) o loop (L)
 
-# Tabla de propensidades (valores de Chou-Fasman)
-# Fuente: Chou & Fasman, 1978
-# Formato: aminoácido -> (P_helix, P_sheet, P_loop)
-PROPENSIDADES = {
+# Tabla de Chou-Fasman: cada aminoácido tiene preferencia por una estructura
+# (hélice, hoja_beta, loop)
+propensidades = {
     'A': (1.45, 0.97, 0.57),
     'R': (0.79, 0.90, 1.00),
     'N': (0.73, 0.65, 1.68),
@@ -39,33 +26,18 @@ PROPENSIDADES = {
     'V': (1.14, 1.65, 0.61),
 }
 
-def predecir_estructura(secuencia):
-    secuencia = secuencia.upper().strip()
-    resultado = []
+secuencia = input("Ingresá la secuencia de aminoácidos: ").upper().strip()
 
-    for aminoacido in secuencia:
-        if aminoacido not in PROPENSIDADES:
-            resultado.append('?')  # aminoácido desconocido
-            continue
+prediccion = ""
+for aa in secuencia:
+    helice, hoja, loop = propensidades[aa]
+    if helice >= hoja and helice >= loop:
+        prediccion += "H"
+    elif hoja >= helice and hoja >= loop:
+        prediccion += "B"
+    else:
+        prediccion += "L"
 
-        p_helice, p_hoja, p_bucle = PROPENSIDADES[aminoacido]
-
-        if p_helice >= p_hoja and p_helice >= p_bucle:
-            resultado.append('H')
-        elif p_hoja >= p_helice and p_hoja >= p_bucle:
-            resultado.append('B')
-        else:
-            resultado.append('L')
-
-    return ''.join(resultado)
-
-
-# --- Programa principal ---
-secuencia = input("Ingresá la secuencia de aminoácidos (código de 1 letra): ")
-
-prediccion = predecir_estructura(secuencia)
-
-print("\nSecuencia: ", secuencia.upper())
+print("Secuencia: ", secuencia)
 print("Predicción:", prediccion)
-print()
-print("Referencia: H = hélice | B = hoja beta | L = loop")
+print("H = hélice | B = hoja beta | L = loop")
