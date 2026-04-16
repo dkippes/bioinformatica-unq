@@ -26,10 +26,9 @@ los sesgos de género (y muchos otros) afectan quién recibe
 crédito y quién no.
 
 5. PARA PENSAR: ¿Cuántas proteínas puede sintetizar un organismo? ¿De qué depende la cantidad y la característica de las proteínas que puede sintetizar un organismo?
---
+Depende de cuantos genes tenga en su genoma
 
 6. DESAFÍO VI: ¿Qué hace distintos a dos individuos de una especie? Propone una forma de corroborar tu respuesta realizando un diagrama de un posible método computacional para dicho fin.
 Seria comprar 2 strings uno de cada especie y la comparacion seria posicion por posicion para ver si son exactamente iguales
-Informacion?
 Individuo A: ATCGGTA                                                          
 Individuo B: ATCGCTA
