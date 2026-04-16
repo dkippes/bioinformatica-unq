@@ -1,5 +1,9 @@
 # Desafío VIII: representación Logo de un conjunto de secuencias proteicas
 # Requiere: pip install logomaker matplotlib pandas
+#
+# Cómo ejecutar:
+#   python Biomoleculas-DesafioVIII.py
+#   Genera el gráfico en pantalla y guarda logo_proteico.png en la misma carpeta
 
 import pandas as pd
 import logomaker

@@ -1,5 +1,9 @@
 # Desafío V: predecir la estructura secundaria de una proteína
 # Para cada aminoácido dice si forma hélice (H), hoja beta (B) o loop (L)
+#
+# Cómo ejecutar:
+#   python Biomoleculas-DesafioV.py
+#   Luego ingresá la secuencia, ej: ACDEFGHIKLMNPQRSTVWY
 
 # Tabla de Chou-Fasman: cada aminoácido tiene preferencia por una estructura
 # (hélice, hoja_beta, loop)

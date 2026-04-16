@@ -3,6 +3,11 @@
 # El motivo es: N{P}[ST]{P}
 # En regex: N[^P][ST][^P]
 # Significa: N, cualquier aa excepto P, S o T, cualquier aa excepto P
+#
+# Cómo ejecutar:
+#   python Biomoleculas-DesafioVII.py
+#   Luego ingresá los IDs de UniProt de a uno, ej: B5ZC00
+#   Enter vacío para terminar
 
 import urllib.request
 import re
