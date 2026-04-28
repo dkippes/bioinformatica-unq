@@ -3,7 +3,7 @@
 #
 # Cómo ejecutar:
 #   python Biomoleculas-DesafioV.py
-#   Luego ingresá la secuencia, ej: ACDEFGHIKLMNPQRSTVWY
+    #   Luego ingresá la secuencia, ej: ACDEFGHIKLMNPQRSTVWY
 
 # Tabla de Chou-Fasman: cada aminoácido tiene preferencia por una estructura
 # (hélice, hoja_beta, loop)

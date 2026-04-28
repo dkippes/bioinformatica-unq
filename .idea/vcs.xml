@@ -3,5 +3,6 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/Introduccion_a_la_Bioinformatica" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Practicas/2. El juego de la vida/Juego_de_la_Vida_kippes" vcs="Git" />
   </component>
 </project>
