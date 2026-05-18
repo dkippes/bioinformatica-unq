@@ -93,9 +93,3 @@ ADN
 ```
 
 ---
-
-## Por qué el juego se enfoca en la caja TATA
-
-La caja TATA es el **primer paso obligatorio**. Si TBP no la reconoce, todo lo demás no arranca.
-Es el cuello de botella del proceso: mutada o bloqueada por un intrón → gen apagado.
-Por eso el juego simula exactamente esa decisión.
