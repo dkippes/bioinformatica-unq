@@ -174,33 +174,255 @@ A partir de los resultados de una búsqueda con BLAST se pueden inferir relacion
 ----------------------------------------------------------------------------------------------------------------------------
 # RESPUESTAS
 
-**PARA PENSAR 1:** ¿Qué tipo de información se puede extraer de la comparación de secuencias? ¿Cómo esperás que se vea en una comparación?
+### **PARA PENSAR 1:** ¿Qué tipo de información se puede extraer de la comparación de secuencias? ¿Cómo esperás que se vea en una comparación?
 
-**PARA PENSAR 2:** ¿Por qué crees que es mejor evaluar las relaciones evolutivas lejanas comparando proteínas?
+- Se puede extraer que tan relacionado estan dos organismos o genes, eso posicion a posicion.
+- Si hay posiciones que no cambiaron a traves del tiempo quiere decir que son importantes.
+- sustituciones, agregados o borrados en ciertas posiciones.
+- Si comparten un ancestro en comun.
+- Si la secuencia ya fue estudiada en otra proteina podes inferir su funcion.
 
-**DESAFIO I:** ¿Existe una única forma de alinear "BANANA" y "MANZANA"? ¿Es alguno de los posibles alineamientos mejor que otro? Si así fuera ¿Por qué?
+Se puede ver la comparacion: alineando 2 secuencias:
+ATGCGT--ATAAAG = ATGCGCGCATAAAG
 
-**DESAFIO II:** ¿Son todos los valores de identidad iguales? ¿Qué consideraciones deberían tenerse en cuenta a la hora de realizar el cálculo? ¿Se te ocurre distintas formas de calcularlo? ¿Serán todas ellas igualmente válidas en Biología?
+Columnas con el mismo caracter = match - conservado
+Columnas distinto caracter = mismatch - puede ser mutada
+Si tiene -- = puede ser una insercion o borrado
 
-**DESAFIO III:** ¿Cómo se relacionan los valores de identidad obtenidos con las penalizaciones que se imponen al gap? ¿Qué implicancias crees que tiene una mayor penalización de gaps? ¿Se te ocurre alguna otra forma de penalización que no haya sido tenida en cuenta en este ejemplo?
+Para ser identicas podria ser que en las regiones importantes hay mas match y en las menos importantes pueden haber mas mismatch
 
-**PARA PENSAR 3:** Pensando en un alineamiento de ácidos nucleicos ¿Cuáles te parece que son las implicancias de abrir un gap en el alineamiento? ¿Qué implicaría la inserción o deleción de una región de más de un residuo?
+### **PARA PENSAR 2:** ¿Por qué crees que es mejor evaluar las relaciones evolutivas lejanas comparando proteínas?
 
-**DESAFIO IV:** ¿Da lo mismo si el gap que introducís cae en la primera, segunda o tercer posición del codón? ¿Cómo ponderarías las observaciones de este ejercicio para evaluar el parecido entre dos secuencias?
+Las proteinas envegecen mas lento que el ADN.
+Osea el ADN puede mutar pero puede devolver la misma proteina.
 
-**DESAFIO V / PARA PENSAR 4:** ¿En qué consiste la programación dinámica? ¿Por qué crees que es útil en este caso?
+Las proteinas tienen 20 aminoacidos posibles, tiene mas probabilidades de coincidir.
+Para organismos que estan muy estrechamente relacionados la proteina tiende a ser identifica
 
-**DESAFIO VI:** Interpretando la recursión, explicá con tus palabras de dónde salen los valores de la matriz que se construye.
+### **DESAFIO I:** Intentemos, entonces alinear estas dos palabras, para comprender mejor el problema. Alineá en la [tabla interactiva](https://flbulgarelli.github.io/umi/#una-palabra-no-dice-nada-y-al-mismo-tiempo-lo-dice-todo) las palabras "BANANA" y "MANZANA". 
+### ¡Tomá nota de tus observaciones y de las conclusiones que se desprendan de estas observaciones!
+### ☑️ PREGUNTAS DISPARADORAS: ¿Existe una única forma de alinearlas? ¿Es alguno de los posibles alineamientos mejor que otro? Si así fuera ¿Por qué?
 
-**PARA PENSAR 5:** ¿En qué casos serán de utilidad uno u otro tipo de alineamientos (global vs local, pares vs múltiple)? ¿Qué limitaciones tendrá cada uno?
+Las palabras:
+BANANA  (6 letras)
+MANZANA (7 letras)
 
-**PARA PENSAR 6:** ¿Para qué sirve cada programa derivado del BLAST disponible en el NCBI? ¿En qué casos usarías cada uno?
+Hay varisa formas de alinearlo:
+Posiiblidad 1:
+B A N A N A -
+M A N Z A N A
+Matches: A, N, N, A → 4 matches, 1 mismatch (B/M), 1 mismatch (A/Z), 1 gap
 
-**DESAFIO VII:** Calculá el E-value y % identidad de la secuencia dada. Observá y discutí el comportamiento de: E-value vs. % id, Score vs % id, Score vs E-value.
+Posibilidad 2 — introducir un gap en BANANA para alinear mejor:
+B A N - A N A 
+M A N Z A N A 
+Matches: A, N, A, N, A → 5 matches, 1 mismatch (B/M), 1 gap
+  
+Posibilidad 3 — gap al principio:
+- B A N A N A
+M A N Z A N A
+Matches: A, N, A → 3 matches, muchos mismatches
 
-**DESAFIO VIII:** Realizá búsquedas con la mitad y un cuarto de la secuencia original. ¿Qué conclusiones podés sacar?
+- Hay varisa formas de alinear las dos palabras
+- Si hay algunas formas mejores,por ejemplo la de posibilidad 2
+- Uno es mejor que el otro porque coincide mas. Por ej, para la biologia quiere decir que tiene mas chances de tener un ancestro comun
 
-**DESAFIO IX:** ¿Cuál es la función de la proteína identificada? ¿A qué grupo taxonómico pertenece? A un nivel de significancia estadística adecuado ¿cuántas secuencias similares se encuentran?
+### ️DESAFIO II: En la siguiente [tabla interactiva](https://flbulgarelli.github.io/umi/#una-palabra-no-dice-nada-y-al-mismo-tiempo-lo-dice-todo)  distintos alineamientos para las palabras "ANA" y "ANANA". Verás que en el margen superior izquierdo aparece un valor de identidad calculado para cada alineamiento que intentes.
+### ¡Tomá nota de los valores de identidad observados y de las conclusiones que se desprendan de estas observaciones!
+### PREGUNTAS DISPARADORAS: ¿Son todos los valores iguales? ¿Qué consideraciones deberían tenerse en cuenta a la hora de realizar el cálculo? ¿Se te ocurre, distintas formas de calcularlo? ¿Serán todas ellas igualmente válidas en Biología?
 
-**DESAFIO X:** ¿Se obtienen los mismos resultados corriendo BLASTp contra la base de datos PDB? ¿Qué tipo de resultados (hits) se recuperan? ¿Cuándo nos podría ser útil este modo de corrida?
+Las palabras:
+ANA   (3 letras)
+ANANA (5 letras)
+
+Alineamiento A — ANA al inicio:
+A N A - -
+A N A N A
+Matches: 3 (A, N, A)
+   
+Alineamiento B — ANA al medio:
+- A N A -
+A N A N A
+Matches: 0 (A≠N, N≠A, A≠N)
+   
+Alineamiento C — ANA al final:
+- - A N A
+A N A N A
+Matches: 3 (A, N, A)
+
+- No son todos los valores de identidad iguales, el B por ejemplo es 0, y A y C es 3
+- No son todas igualmente validas, ANA es muy parecida a ANANA pero es solo una parte. Esto es solo un % de identidad pero solo cubre una parte, hay que tener en cuenta la totalidad de la alineacion tambien y sus gaps.
+
+### DESAFIO III: Probá en  [tabla interactiva](https://flbulgarelli.github.io/umi/#una-palabra-no-dice-nada-y-al-mismo-tiempo-lo-dice-todo) distintos alineamientos para las palabras "ANA" y "ANANA". Verás que en el margen superior izquierdo aparece un valor de identidad calculado para cada alineamiento que intentes y un botón para cambiar la penalidad que se le otorga a dicho para el cálculo de identidad.
+### Probá varias combinaciones, tomá nota de los valores de identidad observados y de las conclusiones que se desprendan de estas observaciones.
+### PREGUNTAS DISPARADORAS: ¿Cómo se relacionan los valores de identidad obtenidos con las penalizaciones que se imponen al gap? ¿Qué implicancias crees que tiene una mayor penalización de gaps? ¿Se te ocurre alguna otra forma de penalización que no haya sido tenido en cuenta en este ejemplo?
+
+Ej:
+A N A - -
+A N A N A
+3 matches, 2 gaps
+
+La identidad se calcula:
+(matches - penalidad * gaps) / longitud_alineamiento
+
+| Penalidad por gap | Cálculo | Identidad |
+  |---|---|---|
+  | 0 (sin penalidad) | 3 / 5 | **60%** |
+  | -0.5 | (3 - 2×0.5) / 5 = 2/5 | **40%** |
+  | -1 | (3 - 2×1) / 5 = 1/5 | **20%** |
+  | -1.5 | (3 - 3) / 5 = 0 | **0%** |
+
+- Si hay mas penalizacion preferible mismatch a gaps
+- Un gap representa una insersion/borrado de algun genoma segun el organizmo
+- Si hay mucha penalizacion el alineamiento puede ser biologicamente incorrecto
+- penalidad afin: costo de abrir un gap nuevo -> alto
+- gap extension: costo de extender un gap -> un poco menor
+
+### **PARA PENSAR** 🤔: Entonces, pensando en un alineamiento de ácidos nucleicos ¿Cuáles te parece que son las implicancias de abrir un gap en el alineamiento? ¿Qué implicaría la inserción o deleción de una región de más de un residuo?
+Un gap seria una insersion o borrado en la secuencia. Como la secuencia es en tripletes, codon, si se borra o inserta 1 o 2 nucleotidos se despleza la lectura de los codones.
+Podria terminar dando una proteina diferente.
+Si hay varias insersiones o borrados depende la gravedad, si son 3 posiciones consegcutivas no es tan grave es menor que 1 o 2.
+Por ej, un gap de 3 consecutivos deberia ser menos penalizante.
+
+### **DESAFIO IV**: Probá en la [tabla interactiva](https://flbulgarelli.github.io/umi/#una-palabra-no-dice-nada-y-al-mismo-tiempo-lo-dice-todo) distintos alineamientos para las secuencias nucleotídicas. Podrás ver las traducciones para cada secuencia.
+### Probá varias combinaciones, tomá nota de las observaciones y de las conclusiones que se desprendan de estas.
+
+1 gap puede romper el frame de lectura, todos los aminoacidos cambian y puede aparecer un stop prematuro
+2 gap tambien rompe el frame es igual o peor que 1
+3 gap se piede un solo aminoacido la proteina continua
+
+si no es multiplo de 3 puede tener problemas del frame que altera la proteina
+en secuencias codificantes un gap puede tener consecuencias funcionales 
+
+### **PARA PENSAR** 🤔: ¿Dá lo mismo si el gap que introducís cae en la primera, segunda o tercer posición del codón? ¿Cómo ponderarías las observaciones de este ejercicio para evaluar el parecido entre dos secuencias?
+
+No da lo mismo, en los tres casos que desfasa el frame y todo lo que viene desplues queda mal traducido.
+La diferencia es cuando el codon afectado sobrevive antes de romperse, igual el daño ya esta hecho.
+
+No alcanza con contar match o missmatch, habria que ver si es multiplo de 3, las sustituciones de 1 o 2 son mas problematicsa.
+
+
+### DESAFIO V: Estuvimos viendo que el alineamiento de secuencias no es trivial y requiere contemplar los múltiples caminos posibles, teniendo en cuenta al mismo tiempo la información biológica que restringe ese universo de posibilidades. 
+
+Pasos para alinear dos secuencias con scoring:
+  1. Definir parámetros de scoring:
+     - match = +1
+     - mismatch = -1
+     - gap = -2
+  2. Construir una matriz vacía: filas = secuencia 1, columnas = secuencia 2
+  3. Inicializar la primera fila y columna con penalidades de gap acumuladas
+  4. Rellenar cada celda tomando el máximo entre:
+     - celda diagonal + match/mismatch
+     - celda izquierda + gap
+     - celda superior + gap
+  5. Identificar el mayor score en la celda final
+  6. Traceback: recorrer la matriz al revés siguiendo el camino de mayor score
+  para construir el alineamiento
+
+  ---
+   
+Ejemplo: ACG vs AG
+
+Paso 1 — Inicializar:
+Fila = ACG
+Columna = AG
+   
+  ```
+        -    A    G
+    -   0   -2   -4
+    A  -2
+    C  -4
+    G  -6
+  ```
+
+Paso 2 — Rellenar. Para la celda (A, A):
+  - diagonal (0) + match(A,A) = 0 + 1 = **1** ← ganador
+  - izquierda (-2) + gap = -4
+  - arriba (-2) + gap = -4
+   
+Matriz completa:
+  ```
+        -    A    G
+    -   0   -2   -4
+    A  -2    1   -1
+    C  -4   -1    0
+    G  -6   -3    0
+  ```
+
+Paso 3 — Traceback desde (G,G):
+  - (G,G) → diagonal → G alineado con G (match)
+  - (C,A) → arriba → C alineado con gap
+  - (A,A) → diagonal → A alineado con A (match)
+
+Alineamiento óptimo:
+  ```
+  Seq1: A C G
+  Seq2: A - G
+  ```
+
+Score final: 1 + (-2) + 1 = 0
+
+
+### **PARA PENSAR** 🤔: ¿En qué consiste la programación dinámica? ¿Por qué crees que es útil en este caso? 
+
+Seria dividir un gran problema en subproblemas, resolver cada uno y guardar los resultados para reutilizarlos.
+Cada celda de la matriz deberia calcularse solo una vez usando los resultados de sus vecinas con esto se deberia encontrar el alineamiento optimo.
+
+
+
+### ️DESAFIO VI: Utilizando la herramienta interactiva  desarrolladas por el Grupo de Bioinformática de Freiburg probá distintos Gap penalties para el ejemplo propuesto y observá lo que ocurre.
+### Interpretando la recursión, explicá con tus palabras de dónde salen los valores de la matriz  que se construye. ¡Esquematiza tus conclusiones!
+
+si hay gap penalty alto puede forzar al algoritmo a preferir mismatch antes que abrir un gap.
+los valores de la matriz salen por como cada celda mira su vecino.
+diagonal -> mirar diagonal noroeste + fijarse si es match o no
+izquierda -> gap + mirar a la izq
+arriba -> gap + mirar arriba
+
+
+### **PARA PENSAR** 🤔: ¿En qué casos serán de utilidad uno u otro tipo de alineamientos? ¿Qué limitaciones tendrá cada uno?
+
+global:
+secuencia de tamaño similar, mismo gen en dos especies cercanas.
+da resultados malos si las secuencias tienen longitudes distintas 
+
+local:
+secuencias de distinto tamaño, proteina vs bacteria por ejemplo
+puede encontrar similitudes por el azar y no de homologia real
+
+### **PARA PENSAR** 🤔: Ingresá al servidor del NCBI y mirá los distintos programas derivados del BLAST que se ofrecen ¿Para qué sirve cada uno? ¿En qué casos usarías cada uno? Vamos a explorar esta herramienta!
+
+| Programa | Query | Base de datos | Cuándo usarlo |
+  |---|---|---|---|
+  | **blastn** | nucleótidos | nucleótidos | Buscar una secuencia de ADN/ARNcontra genomas o secuencias nucleotídicas |
+  | **blastp** | proteínas | proteínas | Buscar una proteína contra bases de datosproteicas |
+  | **blastx** | nucleótidos (traduce) | proteínas | Tenés una secuencia de ADNsin anotar y querés ver a qué proteína corresponde |
+  | **tblastn** | proteínas | nucleótidos (traduce) | Tenés una proteína y querésencontrar el gen que la codifica en genomas no anotados |
+  | **tblastx** | nucleótidos (traduce) | nucleótidos (traduce) | Compararregiones codificantes entre organismos cuando solo tenés secuencias de ADN |
+
+
+### DESAFIO VII: calculá el E-value y % identidad utilizando el programa Blast de la siguiente secuencia input usando 20000 hits, un e-value de 100 y tomando aquellos hits con un mínimo de 70% cobertura. Observe y discuta el comportamiento de : E-value vs. % id, Score vs % id,  Score vs E-value
+### VVGGLGGYMLGSAMSRPIIHFGSDYEDRYYRENMHRYPNQVYYRPMDEYSNQNNFVHDCVNITIKQHTVTTTTKGENFTETDVKMMERVVEQMCITQYERESQAYYQRGSSMVLFSSPPVILLISFLIFLIVG
+### Veamos ahora qué pasa cuando usamos sólo fragmentos de nuestra secuencia problema:
+
+
+
+### DESAFIO VIII: Realizá nuevas búsquedas usando la mitad de la secuencia problema y para un cuarto de la secuencia original. Compará los gráficos obtenidos. ¿Qué conclusiones puede sacas?
+
+
+
+### DESAFIO IX: Utilizando BLAST utilice búsquedas de similitud secuencial para identificar a la siguiente proteína:
+### MIDKSAFVHPTAIVEEGASIGANAHIGPFCIVGPHVEIGEGTVLKSHVVVNGHTKIGRDNEIYQFASIGEVNQDLKYAGEPTRVEIGDRNRIRESVTIHRGTVQGGGLTKVGSDNLLMINAHIAHDCTVGNRCILANNATLAGHVSVDDFAIIGGMTAVHQFCIIGAHVMVGGCSGVAQDVPPYVIAQGNHATPFGVNIEGLKRRGFSREAITAIRNAYKLIYRSGKTLDEVKPEIAELAETYPEVKAFTDFFARSTRGLIR
+
+
+
+
+### **PARA PENSAR** 🤔: ¿Cuál es la función de la proteína? ¿A qué grupo taxonómico pertenece? A un nivel de significancia estadística adecuado ¿cuántas secuencias similares se encuentran? 
+
+
+
+
+### DESAFIO X:  Realizá una nueva corrida del BLASTp, utilizando la misma secuencia , pero ahora contra la base de datos PDB.  ¿Se obtienen los mismos resultados? ¿Qué tipo de resultados(hits) se recuperan? ¿Cuándo nos podría ser útil este modo de corrida?
+
+
 
