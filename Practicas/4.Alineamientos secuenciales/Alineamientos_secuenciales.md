@@ -392,37 +392,121 @@ puede encontrar similitudes por el azar y no de homologia real
 
 ### **PARA PENSAR** 🤔: Ingresá al servidor del NCBI y mirá los distintos programas derivados del BLAST que se ofrecen ¿Para qué sirve cada uno? ¿En qué casos usarías cada uno? Vamos a explorar esta herramienta!
 
-| Programa | Query | Base de datos | Cuándo usarlo |
-  |---|---|---|---|
-  | **blastn** | nucleótidos | nucleótidos | Buscar una secuencia de ADN/ARNcontra genomas o secuencias nucleotídicas |
-  | **blastp** | proteínas | proteínas | Buscar una proteína contra bases de datosproteicas |
-  | **blastx** | nucleótidos (traduce) | proteínas | Tenés una secuencia de ADNsin anotar y querés ver a qué proteína corresponde |
-  | **tblastn** | proteínas | nucleótidos (traduce) | Tenés una proteína y querésencontrar el gen que la codifica en genomas no anotados |
-  | **tblastx** | nucleótidos (traduce) | nucleótidos (traduce) | Compararregiones codificantes entre organismos cuando solo tenés secuencias de ADN |
+| Programa | Para qué                                                              |
+  |---|-----------------------------------------------------------------------|
+  | **SmartBLAST** | Busca proteínas muy similares a tu query, versión simplificada y rápida |
+  | **Primer-BLAST** | Diseñar primers específicos para una plantilla de PCR                 |
+  | **Global Align** | Comparar dos secuencias en toda su extensión (usa Needleman-Wunsch)   |
+  | **CD-search** | Encontrar dominios conservados dentro de tu secuencia                 |
+  | **IgBLAST** | Buscar inmunoglobulinas y receptores de células T específicamente     |
+  | **VecScreen** | Detectar contaminación por vectores en una secuencia                  |
+  | **CDART** | Encontrar secuencias con arquitectura de dominios conservados similar |
+  | **Multiple Alignment** | Alinear múltiples secuencias usando restricciones de dominio y proteína |
 
 
 ### DESAFIO VII: calculá el E-value y % identidad utilizando el programa Blast de la siguiente secuencia input usando 20000 hits, un e-value de 100 y tomando aquellos hits con un mínimo de 70% cobertura. Observe y discuta el comportamiento de : E-value vs. % id, Score vs % id,  Score vs E-value
 ### VVGGLGGYMLGSAMSRPIIHFGSDYEDRYYRENMHRYPNQVYYRPMDEYSNQNNFVHDCVNITIKQHTVTTTTKGENFTETDVKMMERVVEQMCITQYERESQAYYQRGSSMVLFSSPPVILLISFLIFLIVG
 ### Veamos ahora qué pasa cuando usamos sólo fragmentos de nuestra secuencia problema:
 
+se uso https://blast.ncbi.nlm.nih.gov/smartblast/smartBlast.cgi
 
+El arbol filogenetico aparece como unknown pero se agrupa con el humano
+
+| Hit | Score | E-value | % Id | Observación |
+  |---|---|---|---|---|
+  | PrP humana (*Homo sapiens*) | 282 | 6e-97 | 100% | Misma proteína |
+  | PrP ratón (*Mus musculus*) | 242 | 4e-81 | 89% | Ortólogo cercano |
+  | PrP rata (*Rattus norvegicus*) | 240 | 2e-80 | 89% | Ortólogo cercano |
+  | Doppel ratón (*Mus musculus*) | 45.1 | 3e-05 | 21.74% | Parálogo lejano |
 
 ### DESAFIO VIII: Realizá nuevas búsquedas usando la mitad de la secuencia problema y para un cuarto de la secuencia original. Compará los gráficos obtenidos. ¿Qué conclusiones puede sacas?
 
+Mitad
+VVGGLGGYMLGSAMSRPIIHFGSDYEDRYYRENMHRYPNQVYYRPMDEYSNQNNFVHDCVNITIKQ
+
+| Hit | Score | E-value | % Identidad | Cobertura |
+  |---|---|---|---|---|
+  | PrP humana (*Homo sapiens*) | 143 | 2e-43 | 100% | 100% |
+  | Chain A, Major prion protein (*Homo sapiens*) | 144 | 5e-42 | 100% | 100%
+  |
+  | Prion protein p27-30 [synthetic construct] | 143 | 3e-40 | 100% | 100% |
+  | PrP ratón (*Mus musculus*) | 120 | 3e-34 | 89.83% | 89% |
+  | PrP rata (*Rattus norvegicus*) | 119 | 6e-34 | 88.14% | 89% |
+
+Cuarto
+VVGGLGGYMLGSAMSRPIIHFGSDYEDRYYRENMH
+
+| Hit | Score | E-value | % Identidad |
+  |---|---|---|---|
+  | PrP humana (*Homo sapiens*) | 75.5 | 1e-17 | 100% |
+  | Chain A, Major prion protein (*Homo sapiens*) | 76.6 | 3e-16 | 100% |
+  | Chain A, PRION PROTEIN (*Bos taurus*) | 75.5 | 9e-16 | 97.14% |
+  | PrP rata (*Rattus norvegicus*) | 57.4 | 5e-11 | 82.14% |
+  | PrP ratón (*Mus musculus*) | 57.4 | 5e-11 | 85.71% |
+
+**Conclusiones:**
+
+  - A menor longitud de secuencia → menor score y E-value peor (más alto): hay
+  menos información para construir un alineamiento significativo.
+  - Con la secuencia completa el E-value del mejor hit es 6e-97; con la mitad
+  cae a 2e-43 y con el cuarto a 1e-17.
+  - Con el cuarto aparece *Bos taurus* (vaca) como nuevo hit: al tener menos
+  secuencia, el algoritmo ya no puede discriminar bien entre homólogos
+  cercanos y más lejanos.
+  - El árbol filogenético pierde resolución con secuencias más cortas.
+  - Esto demuestra que la longitud de la secuencia query es clave para la
+  sensibilidad y especificidad de BLAST: secuencias muy cortas pueden
+  recuperar hits inespecíficos o perder homólogos reales.
 
 
 ### DESAFIO IX: Utilizando BLAST utilice búsquedas de similitud secuencial para identificar a la siguiente proteína:
 ### MIDKSAFVHPTAIVEEGASIGANAHIGPFCIVGPHVEIGEGTVLKSHVVVNGHTKIGRDNEIYQFASIGEVNQDLKYAGEPTRVEIGDRNRIRESVTIHRGTVQGGGLTKVGSDNLLMINAHIAHDCTVGNRCILANNATLAGHVSVDDFAIIGGMTAVHQFCIIGAHVMVGGCSGVAQDVPPYVIAQGNHATPFGVNIEGLKRRGFSREAITAIRNAYKLIYRSGKTLDEVKPEIAELAETYPEVKAFTDFFARSTRGLIR
 
+https://blast.ncbi.nlm.nih.gov/Blast.cgi?PAGE=Proteins
+La proteína es: acyl-ACP--UDP-N-acetylglucosamine O-acyltransferase (LpxA)
 
-
+| Hit | Score | E-value | % Identidad | Organismo |
+  |---|---|---|---|---|
+  | Mejor hit | 505 | 6e-180 | 92.37% | *Klebsiella* sp. |
+  | Segundo hit | 503 | 2e-179 | 93.13% | *Kluyvera* sp. |
+  | Tercer hit | 488 | 3e-173 | 90.08% | *Siccibacter* sp. |
 
 ### **PARA PENSAR** 🤔: ¿Cuál es la función de la proteína? ¿A qué grupo taxonómico pertenece? A un nivel de significancia estadística adecuado ¿cuántas secuencias similares se encuentran? 
 
+  LpxA es una enzima que participa en la biosíntesis del lípido A, que es
+  parte de la membrana externa de las bacterias gram-negativas. Es el primer
+  paso de esa vía biosintética.
 
+  A las enterobacterias (bacterias gram-negativas). Todos los hits
+  significativos corresponden a este grupo.
+
+  Con un E-value < 0.001 se encontraron 100 clusters con cientos de secuencias
+  miembro cada uno, lo que indica que esta proteína está muy conservada y
+  distribuida en muchas especies bacterianas.
 
 
 ### DESAFIO X:  Realizá una nueva corrida del BLASTp, utilizando la misma secuencia , pero ahora contra la base de datos PDB.  ¿Se obtienen los mismos resultados? ¿Qué tipo de resultados(hits) se recuperan? ¿Cuándo nos podría ser útil este modo de corrida?
 
+| Hit | Score | E-value | % Identidad | Organismo           |
+  |---|---|---|---|---------------------|
+  | LpxA (*E. coli* K-12) | 533 | 0.0 | 100% | *Escherichia coli*  |
+  | LpxA (*E. coli*) | 533 | 0.0 | 100% | *Escherichia coli*  |
+  | LpxA (*Proteus mirabilis*) | 412 | 1e-146 | 72.66% | *Proteus mirabilis* |
+  | LpxA (*Burkholderia thailandensis*) | 287 | 5e-97 | 52.12% | *Burkholderia*      |
+  | LpxA (*Acinetobacter baumannii*) | 286 | 8e-97 | 52.69% | *Acinetobacter*     |
 
+No exactamente. La proteína identificada es la misma (LpxA), pero se
+recuperan solo **22 hits** en vez de cientos. Esto es porque la PDB solo
+contiene proteínas con estructura 3D resuelta experimentalmente.
 
+Cada hit corresponde a una cadena de una estructura cristalográfica (por
+ejemplo, 1LXA_A = estructura PDB 1LXA, cadena A). Todos tienen una 
+estructura tridimensional determinada por rayos X, cryo-EM o NMR.
+
+- Cuando querés conocer la **estructura 3D** de tu proteína o una homóloga.
+- Para hacer **modelado por homología**: usar la estructura conocida como 
+molde para predecir la estructura de tu proteína.
+- Para estudiar el **sitio activo** o regiones funcionales de la proteína en
+3D.
+- Cuando la función ya es conocida pero querés entender el mecanismo 
+estructural.
