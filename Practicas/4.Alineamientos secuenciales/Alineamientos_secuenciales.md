@@ -183,11 +183,12 @@ A partir de los resultados de una búsqueda con BLAST se pueden inferir relacion
 - Si la secuencia ya fue estudiada en otra proteina podes inferir su funcion.
 
 Se puede ver la comparacion: alineando 2 secuencias:
+
 ATGCGT--ATAAAG = ATGCGCGCATAAAG
 
-Columnas con el mismo caracter = match - conservado
-Columnas distinto caracter = mismatch - puede ser mutada
-Si tiene -- = puede ser una insercion o borrado
+- Columnas con el mismo caracter = match - conservado
+- Columnas distinto caracter = mismatch - puede ser mutada
+- Si tiene -- = puede ser una insercion o borrado
 
 Para ser identicas podria ser que en las regiones importantes hay mas match y en las menos importantes pueden haber mas mismatch
 
@@ -204,23 +205,29 @@ Para organismos que estan muy estrechamente relacionados la proteina tiende a se
 ### ☑️ PREGUNTAS DISPARADORAS: ¿Existe una única forma de alinearlas? ¿Es alguno de los posibles alineamientos mejor que otro? Si así fuera ¿Por qué?
 
 Las palabras:
-BANANA  (6 letras)
-MANZANA (7 letras)
+- BANANA  (6 letras)
+- MANZANA (7 letras)
 
 Hay varisa formas de alinearlo:
-Posiiblidad 1:
-B A N A N A -
-M A N Z A N A
+#### Posiiblidad 1:
+| B A N A N A -
+
+| M A N Z A N A
+
 Matches: A, N, N, A → 4 matches, 1 mismatch (B/M), 1 mismatch (A/Z), 1 gap
 
-Posibilidad 2 — introducir un gap en BANANA para alinear mejor:
-B A N - A N A 
-M A N Z A N A 
+#### Posibilidad 2 — introducir un gap en BANANA para alinear mejor:
+| B A N - A N A 
+
+| M A N Z A N A 
+
 Matches: A, N, A, N, A → 5 matches, 1 mismatch (B/M), 1 gap
   
-Posibilidad 3 — gap al principio:
-- B A N A N A
-M A N Z A N A
+#### Posibilidad 3 — gap al principio:
+| - B A N A N A
+
+| M A N Z A N A
+
 Matches: A, N, A → 3 matches, muchos mismatches
 
 - Hay varisa formas de alinear las dos palabras
@@ -235,19 +242,25 @@ Las palabras:
 ANA   (3 letras)
 ANANA (5 letras)
 
-Alineamiento A — ANA al inicio:
-A N A - -
-A N A N A
+#### Alineamiento A — ANA al inicio:
+| A N A - -
+
+| A N A N A
+
 Matches: 3 (A, N, A)
    
-Alineamiento B — ANA al medio:
-- A N A -
-A N A N A
+#### Alineamiento B — ANA al medio:
+| - A N A -
+
+| A N A N A
+
 Matches: 0 (A≠N, N≠A, A≠N)
    
-Alineamiento C — ANA al final:
-- - A N A
-A N A N A
+#### Alineamiento C — ANA al final:
+| - - A N A
+
+| A N A N A
+
 Matches: 3 (A, N, A)
 
 - No son todos los valores de identidad iguales, el B por ejemplo es 0, y A y C es 3
@@ -258,12 +271,13 @@ Matches: 3 (A, N, A)
 ### PREGUNTAS DISPARADORAS: ¿Cómo se relacionan los valores de identidad obtenidos con las penalizaciones que se imponen al gap? ¿Qué implicancias crees que tiene una mayor penalización de gaps? ¿Se te ocurre alguna otra forma de penalización que no haya sido tenido en cuenta en este ejemplo?
 
 Ej:
-A N A - -
-A N A N A
+- A N A - -
+- A N A N A
+
 3 matches, 2 gaps
 
 La identidad se calcula:
-(matches - penalidad * gaps) / longitud_alineamiento
+- (matches - penalidad * gaps) / longitud_alineamiento
 
 | Penalidad por gap | Cálculo | Identidad |
   |---|---|---|
@@ -281,15 +295,16 @@ La identidad se calcula:
 ### **PARA PENSAR** 🤔: Entonces, pensando en un alineamiento de ácidos nucleicos ¿Cuáles te parece que son las implicancias de abrir un gap en el alineamiento? ¿Qué implicaría la inserción o deleción de una región de más de un residuo?
 Un gap seria una insersion o borrado en la secuencia. Como la secuencia es en tripletes, codon, si se borra o inserta 1 o 2 nucleotidos se despleza la lectura de los codones.
 Podria terminar dando una proteina diferente.
+
 Si hay varias insersiones o borrados depende la gravedad, si son 3 posiciones consegcutivas no es tan grave es menor que 1 o 2.
 Por ej, un gap de 3 consecutivos deberia ser menos penalizante.
 
 ### **DESAFIO IV**: Probá en la [tabla interactiva](https://flbulgarelli.github.io/umi/#una-palabra-no-dice-nada-y-al-mismo-tiempo-lo-dice-todo) distintos alineamientos para las secuencias nucleotídicas. Podrás ver las traducciones para cada secuencia.
 ### Probá varias combinaciones, tomá nota de las observaciones y de las conclusiones que se desprendan de estas.
 
-1 gap puede romper el frame de lectura, todos los aminoacidos cambian y puede aparecer un stop prematuro
-2 gap tambien rompe el frame es igual o peor que 1
-3 gap se piede un solo aminoacido la proteina continua
+- 1 gap puede romper el frame de lectura, todos los aminoacidos cambian y puede aparecer un stop prematuro
+- 2 gap tambien rompe el frame es igual o peor que 1
+- 3 gap se piede un solo aminoacido la proteina continua
 
 si no es multiplo de 3 puede tener problemas del frame que altera la proteina
 en secuencias codificantes un gap puede tener consecuencias funcionales 
@@ -300,7 +315,6 @@ No da lo mismo, en los tres casos que desfasa el frame y todo lo que viene despl
 La diferencia es cuando el codon afectado sobrevive antes de romperse, igual el daño ya esta hecho.
 
 No alcanza con contar match o missmatch, habria que ver si es multiplo de 3, las sustituciones de 1 o 2 son mas problematicsa.
-
 
 ### DESAFIO V: Estuvimos viendo que el alineamiento de secuencias no es trivial y requiere contemplar los múltiples caminos posibles, teniendo en cuenta al mismo tiempo la información biológica que restringe ese universo de posibilidades. 
 
@@ -375,9 +389,9 @@ Cada celda de la matriz deberia calcularse solo una vez usando los resultados de
 
 si hay gap penalty alto puede forzar al algoritmo a preferir mismatch antes que abrir un gap.
 los valores de la matriz salen por como cada celda mira su vecino.
-diagonal -> mirar diagonal noroeste + fijarse si es match o no
-izquierda -> gap + mirar a la izq
-arriba -> gap + mirar arriba
+- diagonal -> mirar diagonal noroeste + fijarse si es match o no
+- izquierda -> gap + mirar a la izq
+- arriba -> gap + mirar arriba
 
 
 ### **PARA PENSAR** 🤔: ¿En qué casos serán de utilidad uno u otro tipo de alineamientos? ¿Qué limitaciones tendrá cada uno?
@@ -392,15 +406,15 @@ puede encontrar similitudes por el azar y no de homologia real
 
 ### **PARA PENSAR** 🤔: Ingresá al servidor del NCBI y mirá los distintos programas derivados del BLAST que se ofrecen ¿Para qué sirve cada uno? ¿En qué casos usarías cada uno? Vamos a explorar esta herramienta!
 
-| Programa | Para qué                                                              |
-  |---|-----------------------------------------------------------------------|
-  | **SmartBLAST** | Busca proteínas muy similares a tu query, versión simplificada y rápida |
-  | **Primer-BLAST** | Diseñar primers específicos para una plantilla de PCR                 |
-  | **Global Align** | Comparar dos secuencias en toda su extensión (usa Needleman-Wunsch)   |
-  | **CD-search** | Encontrar dominios conservados dentro de tu secuencia                 |
-  | **IgBLAST** | Buscar inmunoglobulinas y receptores de células T específicamente     |
-  | **VecScreen** | Detectar contaminación por vectores en una secuencia                  |
-  | **CDART** | Encontrar secuencias con arquitectura de dominios conservados similar |
+| Programa | Para qué                                                                |
+  |---|-------------------------------------------------------------------------|
+  | **SmartBLAST** | Busca proteínas muy similares a la query, versión simplificada y rápida  |
+  | **Primer-BLAST** | Diseñar primers específicos para una plantilla de PCR                   |
+  | **Global Align** | Comparar dos secuencias en toda su extensión (usa Needleman-Wunsch)     |
+  | **CD-search** | Encontrar dominios conservados dentro de tu secuencia                   |
+  | **IgBLAST** | Buscar inmunoglobulinas y receptores de células T específicamente       |
+  | **VecScreen** | Detectar contaminación por vectores en una secuencia                    |
+  | **CDART** | Encontrar secuencias con arquitectura de dominios conservados similar   |
   | **Multiple Alignment** | Alinear múltiples secuencias usando restricciones de dominio y proteína |
 
 
@@ -463,6 +477,7 @@ VVGGLGGYMLGSAMSRPIIHFGSDYEDRYYRENMH
 ### MIDKSAFVHPTAIVEEGASIGANAHIGPFCIVGPHVEIGEGTVLKSHVVVNGHTKIGRDNEIYQFASIGEVNQDLKYAGEPTRVEIGDRNRIRESVTIHRGTVQGGGLTKVGSDNLLMINAHIAHDCTVGNRCILANNATLAGHVSVDDFAIIGGMTAVHQFCIIGAHVMVGGCSGVAQDVPPYVIAQGNHATPFGVNIEGLKRRGFSREAITAIRNAYKLIYRSGKTLDEVKPEIAELAETYPEVKAFTDFFARSTRGLIR
 
 https://blast.ncbi.nlm.nih.gov/Blast.cgi?PAGE=Proteins
+
 La proteína es: acyl-ACP--UDP-N-acetylglucosamine O-acyltransferase (LpxA)
 
 | Hit | Score | E-value | % Identidad | Organismo |
