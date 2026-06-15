@@ -86,5 +86,117 @@ Townsend, J.P., López-Giráldez, F. and Friedman, R. 2008. The phylogenetic inf
 
 ----------------------------------------------------------------------------------------------------------------------------
 # RESPUESTAS
+> bartmosca MGSGDAENGKKIFVQKCAQCHTYEVGGKHKTGPNLHGLFGRKTGQAPGYSYTAANKNKGIIWGEDTLMEYLENPKKYIPGTKMIFVGIKKKEERADLIAYLKKATNE 
+
+### DESAFÍO I: Detalla las tácticas y/o metodologías que deberían utilizarse para darles una respuesta a los padres del niño. 
+### Dadas las secuencias de Mosca, humano y Moscahumano ¿Qué criterios se les ocurren para comparar las secuencias? ¿Qué resultados obtienen del análisis anterior?
+### ¿Qué resultado esperaría obtener si utilizara el resto de las secuencias en el análisis? ¿Por qué?
+Utilizaria la tactica de alineamiento de a pares, usando alineamiento global ya que las tres secuencias tienen tamaños simulares.
+
+Alineamiento de a pares (pairwise) — comparar bartmosca contra UNA secuencia a la vez (humano, luego mosca). 
+Ya se sabe exactamente con quién se quiere comparar (humano y mosca son los "sospechosos"). No necesitás buscar en una base de datos enorme como haría BLAST
+
+Criterios:
+- % de identidad (residuos idénticos en posiciones equivalentes)
+- % de similitud (considerando aminoácidos químicamente parecidos, vía matriz de sustitución como BLOSUM62)
+- cantidad y ubicación de gaps/mismatches
+
+Resultado del análisis:
+- Al alinear bartmosca vs humano vs mosca, deberías esperar que bartmosca tenga
+  identidad mucho más alta con humano (casi idéntica, diferencias mínimas) que con
+  mosca (identidad notablemente menor, más mismatches distribuidos).
+- Conclusión: el Cyt C de la "criatura" es esencialmente el humano, no el de
+  mosca.
+
+Si se usan el resto de las secuencias:
+- Esperarías que bartmosca siga agrupándose con humano y mosca (animales), y muy
+  alejada de plantas/bacteria/alga.
+- Por qué: el Cyt C es una proteína muy conservada, y la distancia de secuencia
+  refleja distancia evolutiva — animales vs plantas vs bacterias divergieron hace
+  mucho más tiempo que humano y mosca entre sí. Sirve de referencia para saber qué
+  tan "normal" es la diferencia que se ve entre humano/mosca/bartmosca.
+
+
+
+### DESAFÍO II: Como vimos anteriormente existen algunos softwares optimizados para confeccionar alineamientos de secuencias. En particular hemos trabajado con [Clustal](https://www.ebi.ac.uk/Tools/msa/clustalo/) (Larkin et al. 2007). Confecciona el alineamiento para el punto I.
+Se usa: https://www.ebi.ac.uk/jdispatcher/msa/clustalo
+
+Se deja el alineamiento en alineamiento_custalo.fasta
+
+Realicé el alineamiento múltiple de las 9 secuencias (incluyendo bartmosca) 
+con Clustal Omega. El programa introduce gaps (-) en las secuencias para 
+maximizar la cantidad de posiciones coincidentes entre todas ellas, generando 
+columnas comparables. Como resultado, se observa que bartmosca queda casi 
+perfectamente alineada con la secuencia de humano (idénticas en gran parte de 
+la proteína, salvo pocas diferencias en el extremo N-terminal), mientras que 
+con mosca y con el resto de las especies aparecen más diferencias y gaps 
+distribuidos a lo largo de la secuencia. Esto refuerza la hipótesis de que el 
+Cyt C de bartmosca es esencialmente el humano.
+
+### DESAFÍO III: Mediante el uso del servidor de [IQtree](http://iqtree.cibiv.univie.ac.at/) (Trifinopoulos et al. 2016), confecciona los árboles filogenéticos para los alineamientos obtenidos en el punto II.
+### Como vemos, el servidor nos permite elegir el modelo de sustitución ¿A qué se refiere?
+### ¿Qué es el Bootstrap? ¿De qué manera nos habla de la calidad de nuestro árbol? ¿Cómo influye el número de Bootstraps en el resultado?
+### Interpreten los resultados obtenidos, mediante la visualización de los árboles con la herramienta [FigTree](http://tree.bio.ed.ac.uk/software/figtree/). ¿Es necesario realizar algún paso extra, previo a la interpretación del árbol? ¿Por qué?
+El servidor estaba caido http://iqtree.cibiv.univie.ac.at/
+
+Uso este en su defecto https://ngphylogeny.fr
+
+"PhyML+SMS/OneClick". Ese workflow:
+- SMS (Smart Model Selection) = el equivalente a "Auto"/ModelFinder de IQ-TREE →
+selecciona automáticamente el mejor modelo de sustitución.
+- PhyML = construye el árbol.
+
+Historico: ngphylogeny.fr/workspace/history/5ee1638b0f3575ef
+
+-------
+
+El modelo de sustitución es el modelo matemático que estima la probabilidad de
+  que un aminoácido (o nucleótido) cambie por otro a lo largo del tiempo
+  evolutivo. En mi caso, SMS eligió el modelo Dayhoff + G. Dayhoff es una matriz
+  de sustitución empírica de aminoácidos, construida a
+  partir de cambios observados en proteínas relacionadas, y el "+G" indica que la
+  tasa de sustitución varía entre sitios siguiendo una distribución gamma
+  (algunas posiciones de la proteína cambian más rápido que otras).
+
+-------
+
+El bootstrap es un método de remuestreo: a partir del alineamiento original se
+  generan muchas copias "artificiales" remuestreando columnas al azar (con
+  reemplazo), y se construye un árbol para cada una de ellas. El valor de
+  bootstrap de cada rama indica en qué porcentaje de esos árboles repetidos
+  aparece esa misma agrupación. Cuanto más alto el valor, más confiable/soportada
+  está esa relación. A mayor número de réplicas (por ejemplo 1000 en vez de 100),
+  la estimación del soporte es más estable y precisa, aunque también más costosa
+  computacionalmente.
+
+  En mi corrida particular, el workflow no ejecutó bootstrap (0 réplicas) sino una
+  alternativa llamada aLRT (SH-like), que es un método más rápido pensado para
+  servidores con recursos limitados, y que cumple un rol parecido: dar una medida
+  de soporte por rama sin necesidad de recalcular el árbol cientos de veces.
+
+-------
+
+El árbol obtenido muestra que bartmosca forma un clado prácticamente sin
+  distancia con el Cyt C de humano (NP_061820.1) — aparecen como secuencias
+  hermanas. El siguiente organismo más cercano es Drosophila (mosca), y el resto
+  de las secuencias (plantas como Hordeum, Vigna, Betula y Lupinus, el alga
+  Ectocarpus y la bacteria Rhizobium) forman un grupo aparte, mucho más alejado.
+  Esto confirma lo que veníamos observando en los desafíos anteriores: el Cyt C de
+  la criatura "bartmosca" es esencialmente el humano.
+
+-------
+
+Sí: antes de interpretar el árbol conviene rootearlo (definir una raíz) usando 
+  un outgroup. El algoritmo que construye el árbol no define una raíz
+  biológicamente significativa por sí solo. Para poder interpretar correctamente
+  la dirección de la evolución (qué es ancestral y qué es derivado), hay que
+  elegir como raíz la secuencia evolutivamente más distante del resto — en este
+  caso, Rhizobium (la bacteria), ya que el resto de los organismos son eucariotas
+  y comparten un ancestro común más reciente. Sin este paso, el árbol solo muestra
+  agrupamientos, pero no necesariamente la dirección temporal correcta de la
+  evolución.
+
+
+
 
     

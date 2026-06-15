@@ -334,7 +334,13 @@ Pasos para alinear dos secuencias con scoring:
   para construir el alineamiento
 
   ---
-   
+Por qué la primera fila/columna empieza en -2, -4, -6...?
+- Alinear 0 caracteres contra N caracteres implica N gaps obligatorios. Es el
+  caso base
+
+- ↖ diagonal  →  seq1[i] se alinea con seq2[j]  (match o mismatch)
+- ←  izquierda →  gap en seq1  (se "saltea" un carácter de seq2)
+- ↑  arriba    →  gap en seq2  (se "saltea" un carácter de seq1)
 Ejemplo: ACG vs AG
 
 Paso 1 — Inicializar:
@@ -362,6 +368,13 @@ Matriz completa:
     C  -4   -1    0
     G  -6   -3    0
   ```
+
+- (A,A) = 1 → viene de diagonal: 0 + match(A,A) = 0+1 = 1
+- (A,G) = -1 → viene de izquierda: 1 + gap = 1-2 = -1
+- (C,A) = -1 → viene de arriba: 1 + gap = 1-2 = -1
+- (C,G) = 0 → viene de diagonal: 1 + mismatch(C,G) = 1-1 = 0
+- (G,A) = -3 → viene de arriba: -1 + gap = -1-2 = -3
+- (G,G) = 0 → viene de diagonal: -1 + match(G,G) = -1+1 = 0
 
 Paso 3 — Traceback desde (G,G):
   - (G,G) → diagonal → G alineado con G (match)
